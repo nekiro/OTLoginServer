@@ -1,0 +1,17 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TibiaLoginServer", "TibiaLoginServer\TibiaLoginServer.csproj", "{2B476039-2DD8-4E98-87B3-004284328A53}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|anycpu = Debug|anycpu
+		Release|anycpu = Release|anycpu
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B476039-2DD8-4E98-87B3-004284328A53}.Debug|anycpu.ActiveCfg = Debug|anycpu
+		{2B476039-2DD8-4E98-87B3-004284328A53}.Debug|anycpu.Build.0 = Debug|anycpu
+		{2B476039-2DD8-4E98-87B3-004284328A53}.Release|anycpu.ActiveCfg = Release|anycpu
+		{2B476039-2DD8-4E98-87B3-004284328A53}.Release|anycpu.Build.0 = Release|anycpu
+	EndGlobalSection
+EndGlobal
