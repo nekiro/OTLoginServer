@@ -73,7 +73,7 @@ namespace TibiaLoginServer.Classes
             return 0;
         }
 
-        public async Task<ICollection<World>> GetWorlds()
+        public ICollection<World> GetWorlds()
         {
             // this is just a dummy method, cause tfs does not support more than one world
             List<World> worlds = new List<World>();
