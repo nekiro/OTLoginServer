@@ -85,8 +85,22 @@ namespace TibiaLoginServer.Classes
                 ExternalPortUnprotected = ConfigLoader.GetInteger("loginProtocolPort").ToString(),
                 ExternalPortProtected = ConfigLoader.GetInteger("loginProtocolPort").ToString(),
                 ExternalAddressUnprotected = ConfigLoader.GetString("ip"),
-                PvpType = 0, // todo fix this to get config pvp
             };
+
+            string pvpType = ConfigLoader.GetString("worldType");
+            if (pvpType == "pvp")
+            {
+                world.PvpType = 0;
+            }
+            else if (pvpType == "no-pvp")
+            {
+                world.PvpType = 1;
+            }
+            else if (pvpType == "pvp-enforced")
+            {
+                world.PvpType = 2;
+            }
+
             worlds.Add(world);
             return worlds;
         }
@@ -101,21 +115,16 @@ namespace TibiaLoginServer.Classes
                 {
                     characters.Add(new Character()
                     {
-                        WorldId = 0, // not used in tfs
                         Name = dataReader.GetString(dataReader.GetOrdinal("name")),
                         Level = dataReader.GetInt32(dataReader.GetOrdinal("level")),
                         Vocation = (VocationEnum)System.Enum.Parse(typeof(VocationEnum), dataReader.GetInt32(dataReader.GetOrdinal("vocation")).ToString()),
                         IsMale = dataReader.GetInt32(dataReader.GetOrdinal("sex")) == 0,
-                        IsHidden = false, // not used in tfs
-                        IsMainCharacter = false, // not used in tfs
-                        Tutorial = false, // not used in tfs
                         OutfitId = dataReader.GetInt32(dataReader.GetOrdinal("looktype")),
                         HeadColor = dataReader.GetInt32(dataReader.GetOrdinal("lookhead")),
                         TorsoColor = dataReader.GetInt32(dataReader.GetOrdinal("lookbody")),
                         LegsColor = dataReader.GetInt32(dataReader.GetOrdinal("looklegs")),
                         DetailColor = dataReader.GetInt32(dataReader.GetOrdinal("lookfeet")),
                         AddonsFlags = dataReader.GetInt32(dataReader.GetOrdinal("lookaddons")),
-                        IsTournamentParticipant = false // not used in tfs
                     });
                 }
 

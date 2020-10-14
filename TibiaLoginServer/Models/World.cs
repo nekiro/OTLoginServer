@@ -11,7 +11,7 @@
         public int PreviewState { get; set; } = 0;
         public string Location { get; set; } = "EUR"; // todo make it enum
         public bool AntiCheatProtection { get; set; } = false;
-        public int PvpType { get; set; } // enum?
+        public int PvpType { get; set; }
         public bool IsTournamentWorld { get; set; } = false;
         public bool RestrictedStore { get; set; } = false;
     }
