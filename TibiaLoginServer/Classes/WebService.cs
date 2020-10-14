@@ -57,7 +57,7 @@ namespace TibiaLoginServer.Classes
                 }
                 return false;
             }
-            Console.WriteLine($"Listening on {String.Join(",\n", Const.Prefixes)}");
+            Console.WriteLine($"Began listening on {String.Join(",\n", Const.Prefixes)}");
 
             while (true)
             {
@@ -138,7 +138,7 @@ namespace TibiaLoginServer.Classes
                 }
                 else if (type == "eventschedule")
                 {
-                    // to do models
+                    await SendResponse(ctx, CustomJsonSerialize(_db.GetScheduledEvents()));
                 }
             }
             catch (Exception ex)

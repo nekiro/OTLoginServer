@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
@@ -17,12 +14,6 @@ namespace TibiaLoginServer.Classes
     {
         private readonly MySqlConnection _connection;
 
-        private string Host { get; set; }
-        private string User { get; set; }
-        private string Password { get; set; }
-        private string DbName { get; set; }
-        private string Port { get; set; }
-
         private const string connectionString = "host = {0}; userid = {1}; password = {2}; database = {3}; port = {4}";
 
         public DatabaseManager()
@@ -34,7 +25,6 @@ namespace TibiaLoginServer.Classes
         {
             _connection.ConnectionString = String.Format(connectionString, ConfigLoader.GetString("mysqlHost"), ConfigLoader.GetString("mysqlUser"), 
                 ConfigLoader.GetString("mysqlPass"), ConfigLoader.GetString("mysqlDatabase"), ConfigLoader.GetInteger("mysqlPort"));
-            Console.WriteLine(_connection.ConnectionString);
 
             try
             {
@@ -45,6 +35,7 @@ namespace TibiaLoginServer.Classes
                 Console.WriteLine(ex.Message);
                 return false;
             }
+            Console.WriteLine($"Connected to {_connection.Database} at {ConfigLoader.GetString("mysqlHost")}:{ConfigLoader.GetInteger("mysqlPort")} via {ConfigLoader.GetString("mysqlUser")}");
             return true;
         }
 
@@ -113,7 +104,7 @@ namespace TibiaLoginServer.Classes
                         WorldId = 0, // not used in tfs
                         Name = dataReader.GetString(dataReader.GetOrdinal("name")),
                         Level = dataReader.GetInt32(dataReader.GetOrdinal("level")),
-                        Vocation = (VocationEnum)Enum.Parse(typeof(VocationEnum), dataReader.GetInt32(dataReader.GetOrdinal("vocation")).ToString()),
+                        Vocation = (VocationEnum)System.Enum.Parse(typeof(VocationEnum), dataReader.GetInt32(dataReader.GetOrdinal("vocation")).ToString()),
                         IsMale = dataReader.GetInt32(dataReader.GetOrdinal("sex")) == 0,
                         IsHidden = false, // not used in tfs
                         IsMainCharacter = false, // not used in tfs
@@ -132,13 +123,34 @@ namespace TibiaLoginServer.Classes
             }
         }
 
+        public EventsScheduleResponse GetScheduledEvents()
+        {
+            // you can use this method to parse events from your database
+
+            EventsScheduleResponse eventsResponse = new EventsScheduleResponse();
+            eventsResponse.EventList = new List<Event>();
+            eventsResponse.EventList.Add(new Event()
+            {
+                StartDate = DateTime.UtcNow.ToTimestamp().Seconds,
+                EndDate = DateTime.UtcNow.ToTimestamp().Seconds + 5 * 86400,
+                ColorLight = "#7a1b34",
+                ColorDark = "#64162b",
+                Name = "Sample Event",
+                Description = "Nekiro was here"
+            });
+
+            return eventsResponse;
+        }
+
         public BoostedCreatureResponse GetBoostedCreature()
         {
+            // you can use this method to parse boosted creature from your database
             return new BoostedCreatureResponse() { RaceId = 1496 };
         }
 
         public CacheInfoResponse GetCacheInfo()
         {
+            // you can use this method to parse info stuff from your database
             return new CacheInfoResponse()
             {
                 PlayersOnline = 666,

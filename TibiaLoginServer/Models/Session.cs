@@ -7,7 +7,7 @@
         public bool IsPremium { get; set; }
         public long PremiumUntil { get; set; }
         public string Status { get; set; } = "active";
-        public bool ReturnerNotification { get; set; } = true;
+        public bool ReturnerNotification { get; set; } = false;
         public bool ShowRewardNews { get; set; } = false;
         public bool IsReturner { get; set; } = false;
         public bool FpsTracking { get; set; } = false;

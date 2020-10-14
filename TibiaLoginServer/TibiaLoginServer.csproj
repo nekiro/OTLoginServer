@@ -91,6 +91,8 @@
     <Compile Include="Models\CacheInfoResponse.cs" />
     <Compile Include="Models\Character.cs" />
     <Compile Include="Models\ErrorResponse.cs" />
+    <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\EventsScheduleResponse.cs" />
     <Compile Include="Models\LoginResponse.cs" />
     <Compile Include="Models\LowercaseContractResolver.cs" />
     <Compile Include="Models\PlayData.cs" />

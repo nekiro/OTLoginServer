@@ -10,7 +10,7 @@ POST
 Login Server Login Response
 {
     "session": {
-        "sessionkey": "2wBjewNYrXH9YbGvc4l6MPW1zYdQjg",
+        "sessionkey": "sessionKey",
         "lastlogintime": 1593881964,
         "ispremium": false,
         "premiumuntil": 1593110465,
@@ -28,9 +28,9 @@ Login Server Login Response
             {
                 "id": 0,
                 "name": "Antica",
-                "externaladdressprotected": "protected-ip-eu-v4.tibia.com",
+                "externaladdressprotected": "IP",
                 "externalportprotected": 7171,
-                "externaladdressunprotected": "tibia-pool-eu.ciproxy.com",
+                "externaladdressunprotected": "IP",
                 "externalportunprotected": 7171,
                 "previewstate": 0,
                 "location": "EUR",
@@ -43,7 +43,7 @@ Login Server Login Response
         "characters": [
             {
                 "worldid": 0,
-                "name": "Hekaria",
+                "name": "Name",
                 "level": 38,
                 "vocation": "Knight",
                 "ismale": false,
@@ -60,7 +60,7 @@ Login Server Login Response
             },
             {
                 "worldid": 0,
-                "name": "Nekiro",
+                "name": "Name",
                 "level": 28,
                 "vocation": "Sorcerer",
                 "ismale": true,
