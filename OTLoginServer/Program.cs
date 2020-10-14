@@ -1,11 +1,11 @@
-﻿using System;
+﻿using OTLoginServer.Classes;
+using System;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using TibiaLoginServer.Classes;
 
-namespace TibiaLoginServer
+namespace OTLoginServer
 {
-    class MainClass
+    class Program
     {
         public static bool IsAdministrator()
         {

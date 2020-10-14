@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
-using TibiaLoginServer.Models;
-using static TibiaLoginServer.Models.Character;
+using OTLoginServer.Models;
+using static OTLoginServer.Models.Character;
 
-namespace TibiaLoginServer.Classes
+namespace OTLoginServer.Classes
 {
     public class DatabaseManager
     {
@@ -162,11 +162,11 @@ namespace TibiaLoginServer.Classes
             // you can use this method to parse info stuff from your database
             return new CacheInfoResponse()
             {
-                PlayersOnline = 666,
-                TwitchStreams = 666,
-                TwitchViewer = 666,
-                GamingYoutubeStreams = 666,
-                GamingYoutubeViewer = 666,
+                PlayersOnline = 123,
+                TwitchStreams = 456,
+                TwitchViewer = 789,
+                GamingYoutubeStreams = 1000,
+                GamingYoutubeViewer = 24444,
             };
         }
     }

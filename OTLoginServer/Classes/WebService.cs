@@ -1,18 +1,14 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using MySql.Data.MySqlClient;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using TibiaLoginServer.Models;
+using OTLoginServer.Models;
 
-namespace TibiaLoginServer.Classes
+namespace OTLoginServer.Classes
 {
     public class WebService
     {

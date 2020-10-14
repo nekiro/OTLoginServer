@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TibiaLoginServer.Models
+namespace OTLoginServer.Models
 {
     public class PlayData
     {

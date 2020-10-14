@@ -1,4 +1,4 @@
-﻿namespace TibiaLoginServer.Models
+﻿namespace OTLoginServer.Models
 {
     public class World
     {

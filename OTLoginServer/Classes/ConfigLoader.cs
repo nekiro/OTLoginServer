@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
-namespace TibiaLoginServer.Classes
+namespace OTLoginServer.Classes
 {
     public static class ConfigLoader
     {
@@ -82,7 +79,7 @@ namespace TibiaLoginServer.Classes
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to parse config.lua mysql info {ex}");
+                Console.WriteLine($"{ex.Message}");
                 return false;
             }
         }

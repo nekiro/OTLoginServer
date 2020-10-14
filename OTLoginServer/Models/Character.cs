@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace TibiaLoginServer.Models
+namespace OTLoginServer.Models
 {
     public class Character
     {
