@@ -17,6 +17,7 @@ That's it :)
 It's even simpler, after you succesfully published, you gonna see new directory in your `bin` directory called `publish`.
 Simply move your .exe file to your forgottenserver root directory (this one with config.lua in it)
 That's it, just run it and enjoy. Make sure you `run` it as `administrator` though.
+By default it will listen on `http://localhost:80/login/`, you can change this in Const.cs.
 
 ### Bugs
 There is always room for improvement, so you if ran into any bugs or so, report them in issues tab, also pull requests are always welcome!
