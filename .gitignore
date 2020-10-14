@@ -3,3 +3,5 @@ obj/
 bin/
 .DS_STORE
 packages/
+properties/
+*.user
