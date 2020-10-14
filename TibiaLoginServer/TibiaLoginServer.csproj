@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="Classes\ConfigLoader.cs" />
     <Compile Include="Classes\DatabaseManager.cs" />
+    <Compile Include="Models\Account.cs" />
     <Compile Include="Models\BoostedCreatureResponse.cs" />
     <Compile Include="Models\CacheInfoResponse.cs" />
     <Compile Include="Models\Character.cs" />

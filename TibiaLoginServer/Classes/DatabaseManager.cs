@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
 using TibiaLoginServer.Models;
 using static TibiaLoginServer.Models.Character;
@@ -55,22 +56,31 @@ namespace TibiaLoginServer.Classes
             }
         }
 
-        public async Task<int> GetAccountId(string name, string password)
+        public async Task<Account> GetAccount(string name, string password)
         {
-            var cmd = new MySqlCommand($"SELECT `id` FROM `accounts` WHERE `name` = '{name}' AND `password` = '{Hash(password)}'", _connection);
+            var cmd = new MySqlCommand($"SELECT `id`, `premdays`, `lastday` FROM `accounts` WHERE `name` = '{name}' AND `password` = '{Hash(password)}'", _connection);
             using (var dataReader = await cmd.ExecuteReaderAsync())
             {
                 if (dataReader.Read())
                 {
+                    Account account = new Account();
+
                     if (!dataReader.HasRows)
                     {
-                        return 0;
+                        return null;
                     }
 
-                    return int.Parse(dataReader.GetString(0));
+                    account.Id = dataReader.GetInt32(dataReader.GetOrdinal("id"));
+
+                    int premDays = dataReader.GetInt32(dataReader.GetOrdinal("premdays"));
+                    account.IsPremium = premDays > 0;
+                    account.LastLoginTime = dataReader.GetInt64(dataReader.GetOrdinal("lastday"));
+                    account.PremiumUntil = DateTime.UtcNow.ToTimestamp().Seconds + premDays * 86400;
+
+                    return account;
                 }
             }
-            return 0;
+            return null;
         }
 
         public ICollection<World> GetWorlds()

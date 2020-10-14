@@ -102,8 +102,8 @@ namespace TibiaLoginServer.Classes
                 {
                     string email = obj.Value<string>("email"); // used as name in tfs
                     string password = obj.Value<string>("password");
-                    int accountId = await _db.GetAccountId(email, password);
-                    if (accountId == 0)
+                    Account account = await _db.GetAccount(email, password);
+                    if (account == null)
                     {
                         await SendResponse(ctx, JsonConvert.SerializeObject(new ErrorResponse() { ErrorCode = 3, ErrorMessage = "Tibia account email address or Tibia password is not correct." }));
                         return;
@@ -114,14 +114,14 @@ namespace TibiaLoginServer.Classes
                         Session = new Session
                         {
                             SessionKey = GenerateSessionKey(),
-                            LastLoginTime = DateTime.UtcNow.ToTimestamp().Seconds,
-                            IsPremium = true, // todo actually parse this from account table
-                            PremiumUntil = DateTime.UtcNow.ToTimestamp().Seconds + 99999,
+                            LastLoginTime = account.LastLoginTime,
+                            IsPremium = account.IsPremium,
+                            PremiumUntil = account.PremiumUntil
                         },
 
                         PlayData = new PlayData
                         {
-                            Characters = await _db.GetAccountCharacters(accountId),
+                            Characters = await _db.GetAccountCharacters(account.Id),
                             Worlds = await Task.Run(() => _db.GetWorlds())
                         }
                     };
