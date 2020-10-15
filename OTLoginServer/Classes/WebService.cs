@@ -80,15 +80,6 @@ namespace OTLoginServer.Classes
             return JsonConvert.SerializeObject(obj, Formatting.Indented, settings);
         }
 
-        private readonly Random random = new Random();
-
-        private string GenerateSessionKey()
-        {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            return new string(Enumerable.Repeat(chars, 30)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
-        }
-
         public async Task ProcessRequest(JObject obj, HttpListenerContext ctx)
         {
             try
@@ -96,7 +87,7 @@ namespace OTLoginServer.Classes
                 string type = obj.Value<string>("type");
                 if (type == "login")
                 {
-                    string email = obj.Value<string>("email"); // used as name in tfs
+                    string email = obj.Value<string>("email");
                     string password = obj.Value<string>("password");
                     Account account = await _db.GetAccount(email, password);
                     if (account == null)
@@ -109,7 +100,7 @@ namespace OTLoginServer.Classes
                     {
                         Session = new Session
                         {
-                            SessionKey = GenerateSessionKey(),
+                            SessionKey = $"{email}\n{password}",
                             LastLoginTime = account.LastLoginTime,
                             IsPremium = account.IsPremium,
                             PremiumUntil = account.PremiumUntil

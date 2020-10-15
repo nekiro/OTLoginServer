@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
@@ -39,17 +37,9 @@ namespace OTLoginServer.Classes
             return true;
         }
 
-        public string Hash(string stringToHash)
+        public async Task<Account> GetAccount(string email, string password)
         {
-            using (var sha1 = new SHA1Managed())
-            {
-                return BitConverter.ToString(sha1.ComputeHash(Encoding.UTF8.GetBytes(stringToHash))).Replace("-", "").ToLower();
-            }
-        }
-
-        public async Task<Account> GetAccount(string name, string password)
-        {
-            var cmd = new MySqlCommand($"SELECT `id`, `premdays`, `lastday` FROM `accounts` WHERE `name` = '{name}' AND `password` = '{Hash(password)}'", _connection);
+            var cmd = new MySqlCommand($"SELECT `id`, `premdays`, `lastday` FROM `accounts` WHERE `email` = '{email}' AND `password` = '{Const.Sha1Hash(password)}'", _connection);
             using (var dataReader = await cmd.ExecuteReaderAsync())
             {
                 if (dataReader.Read())
@@ -81,11 +71,10 @@ namespace OTLoginServer.Classes
             World world = new World()
             {
                 Name = ConfigLoader.GetString("serverName"),
-                ExternalAddressProtected = ConfigLoader.GetString("ip"),
-                ExternalPortUnprotected = ConfigLoader.GetInteger("loginProtocolPort").ToString(),
-                ExternalPortProtected = ConfigLoader.GetInteger("loginProtocolPort").ToString(),
-                ExternalAddressUnprotected = ConfigLoader.GetString("ip"),
             };
+
+            world.ExternalAddressProtected = world.ExternalAddressUnprotected = ConfigLoader.GetString("ip");
+            world.ExternalPortProtected = world.ExternalPortUnprotected = ConfigLoader.GetInteger("gameProtocolPort");
 
             string pvpType = ConfigLoader.GetString("worldType");
             if (pvpType == "pvp")
