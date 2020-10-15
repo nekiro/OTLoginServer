@@ -18,7 +18,7 @@ namespace OTLoginServer.Models
             EliteKnight,
         }
 
-        public int WorldId { get; set; }
+        public int WorldId { get; set; } = 0;
         public string Name { get; set; }
         public int Level { get; set; }
 
@@ -26,8 +26,8 @@ namespace OTLoginServer.Models
         public VocationEnum Vocation { get; set; }
 
         public bool IsMale { get; set; }
-        public bool IsHidden { get; set; }
-        public bool IsMainCharacter { get; set; }
+        public bool IsHidden { get; set; } = false;
+        public bool IsMainCharacter { get; set; } = false;
         public bool Tutorial { get; set; }
         public int OutfitId { get; set; }
         public int HeadColor { get; set; }
@@ -35,6 +35,6 @@ namespace OTLoginServer.Models
         public int LegsColor { get; set; }
         public int DetailColor { get; set; }
         public int AddonsFlags { get; set; }
-        public bool IsTournamentParticipant { get; set; }
+        public bool IsTournamentParticipant { get; set; } = false;
     }
 }
