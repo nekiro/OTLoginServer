@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Threading.Tasks;
-using MySqlConnector;
+﻿using MySqlConnector;
 using OTLoginServer.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using static OTLoginServer.Models.Character;
 
 namespace OTLoginServer.Classes
@@ -38,6 +37,7 @@ namespace OTLoginServer.Classes
                 Console.WriteLine(ex.Message);
                 return false;
             }
+
             Console.WriteLine($"Connected to {_connection.Database} at {ConfigLoader.GetString("mysqlHost")}:{ConfigLoader.GetInteger("mysqlPort")} via {ConfigLoader.GetString("mysqlUser")}");
             return true;
         }
