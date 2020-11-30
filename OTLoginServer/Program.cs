@@ -1,5 +1,6 @@
 ﻿using OTLoginServer.Classes;
 using System;
+using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace OTLoginServer
 
         public static async Task Main(string[] args)
         {
-            if (!IsAdministrator())
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && !IsAdministrator())
             {
                 Console.WriteLine("You need to run this program as administrator, because http listener requires it.");
                 Console.ReadKey();
