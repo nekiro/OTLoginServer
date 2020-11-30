@@ -15,6 +15,8 @@ Technologies:
 It's actually pretty simple.
 Right click OTLoginServer project file and click publish, if you wish you can change some options there and just click publish.
 That's it :)
+OR
+run build_win.bat or build_linux.bat
 
 ## How To Use
 It's trivial, after you succesfully published, you gonna see new directory in your `bin` directory called `publish`.
