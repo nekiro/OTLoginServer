@@ -1,3 +1,5 @@
+Structure 12.51
+
 Tibia Client Login Request
 POST
 {
@@ -130,3 +132,5 @@ GET?
     "richText": "<table><tbody><tr><td><p style=\"margin-right: 5px;\"><img src=\"https://static.tibia.com/images/news/rh_lore.png\" width=\"80\" height=\"80\" /></p></td><td><p>To this day, nobody knows precisely what it was that caused it. Perhaps the power that had been spent lured another entity out of the void, or it might be that it simply awoke another divine entity from its slumber. Some even claim that in some mysterious way the power that had been spent by Uman and Fardos actually created a new entity.</p></td></tr></tbody></table>"
   }
 ]
+
+--

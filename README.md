@@ -8,6 +8,9 @@ Technologies:
   - C#
   - MySql
 
+## Protocol Supported
+12.51 - ?
+
 ## How To Compile
 It's actually pretty simple.
 Right click OTLoginServer project file and click publish, if you wish you can change some options there and just click publish.
