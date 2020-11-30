@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Threading.Tasks;
-using Google.Protobuf.WellKnownTypes;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using OTLoginServer.Models;
 using static OTLoginServer.Models.Character;
 
@@ -19,9 +19,14 @@ namespace OTLoginServer.Classes
             _connection = new MySqlConnection();
         }
 
+        ~DatabaseManager()
+        {
+            _connection.Close();
+        }
+
         public async Task<bool> Setup()
         {
-            _connection.ConnectionString = String.Format(connectionString, ConfigLoader.GetString("mysqlHost"), ConfigLoader.GetString("mysqlUser"), 
+            _connection.ConnectionString = string.Format(connectionString, ConfigLoader.GetString("mysqlHost"), ConfigLoader.GetString("mysqlUser"), 
                 ConfigLoader.GetString("mysqlPass"), ConfigLoader.GetString("mysqlDatabase"), ConfigLoader.GetInteger("mysqlPort"));
 
             try
@@ -39,7 +44,7 @@ namespace OTLoginServer.Classes
 
         public async Task<Account> GetAccount(string email, string password)
         {
-            var cmd = new MySqlCommand($"SELECT `id`, `premdays`, `lastday` FROM `accounts` WHERE `email` = '{email}' AND `password` = '{Const.Sha1Hash(password)}'", _connection);
+            using var cmd = new MySqlCommand($"SELECT `id`, `premdays`, `lastday` FROM `accounts` WHERE `email` = '{email}' AND `password` = '{Const.Sha1Hash(password)}'", _connection);
             using (var dataReader = await cmd.ExecuteReaderAsync())
             {
                 if (dataReader.Read())
@@ -56,7 +61,7 @@ namespace OTLoginServer.Classes
                     int premDays = dataReader.GetInt32(dataReader.GetOrdinal("premdays"));
                     account.IsPremium = premDays > 0;
                     account.LastLoginTime = dataReader.GetInt64(dataReader.GetOrdinal("lastday"));
-                    account.PremiumUntil = DateTime.UtcNow.ToTimestamp().Seconds + premDays * 86400;
+                    account.PremiumUntil = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + premDays * 86400;
 
                     return account;
                 }
@@ -96,29 +101,28 @@ namespace OTLoginServer.Classes
 
         public async Task<ICollection<Character>> GetAccountCharacters(int id)
         {
-            var cmd = new MySqlCommand($"SELECT `name`, `level`, `vocation`, `sex`, `looktype`, `lookhead`, `lookbody`, `looklegs`, `lookfeet`, `lookaddons`  FROM `players` WHERE `account_id` = {id}", _connection);
-            using (var dataReader = await cmd.ExecuteReaderAsync())
-            {
-                List<Character> characters = new List<Character>();
-                while (await dataReader.ReadAsync())
-                {
-                    characters.Add(new Character()
-                    {
-                        Name = dataReader.GetString(dataReader.GetOrdinal("name")),
-                        Level = dataReader.GetInt32(dataReader.GetOrdinal("level")),
-                        Vocation = (VocationEnum)System.Enum.Parse(typeof(VocationEnum), dataReader.GetInt32(dataReader.GetOrdinal("vocation")).ToString()),
-                        IsMale = dataReader.GetInt32(dataReader.GetOrdinal("sex")) == 0,
-                        OutfitId = dataReader.GetInt32(dataReader.GetOrdinal("looktype")),
-                        HeadColor = dataReader.GetInt32(dataReader.GetOrdinal("lookhead")),
-                        TorsoColor = dataReader.GetInt32(dataReader.GetOrdinal("lookbody")),
-                        LegsColor = dataReader.GetInt32(dataReader.GetOrdinal("looklegs")),
-                        DetailColor = dataReader.GetInt32(dataReader.GetOrdinal("lookfeet")),
-                        AddonsFlags = dataReader.GetInt32(dataReader.GetOrdinal("lookaddons")),
-                    });
-                }
+            using var cmd = new MySqlCommand($"SELECT `name`, `level`, `vocation`, `sex`, `looktype`, `lookhead`, `lookbody`, `looklegs`, `lookfeet`, `lookaddons`  FROM `players` WHERE `account_id` = {id}", _connection);
+            using var dataReader = await cmd.ExecuteReaderAsync();
 
-                return characters;
+            List<Character> characters = new List<Character>();
+            while (await dataReader.ReadAsync())
+            {
+                characters.Add(new Character()
+                {
+                    Name = dataReader.GetString(dataReader.GetOrdinal("name")),
+                    Level = dataReader.GetInt32(dataReader.GetOrdinal("level")),
+                    Vocation = (VocationEnum)System.Enum.Parse(typeof(VocationEnum), dataReader.GetInt32(dataReader.GetOrdinal("vocation")).ToString()),
+                    IsMale = dataReader.GetInt32(dataReader.GetOrdinal("sex")) == 0,
+                    OutfitId = dataReader.GetInt32(dataReader.GetOrdinal("looktype")),
+                    HeadColor = dataReader.GetInt32(dataReader.GetOrdinal("lookhead")),
+                    TorsoColor = dataReader.GetInt32(dataReader.GetOrdinal("lookbody")),
+                    LegsColor = dataReader.GetInt32(dataReader.GetOrdinal("looklegs")),
+                    DetailColor = dataReader.GetInt32(dataReader.GetOrdinal("lookfeet")),
+                    AddonsFlags = dataReader.GetInt32(dataReader.GetOrdinal("lookaddons")),
+                });
             }
+
+            return characters;
         }
 
         public EventsScheduleResponse GetScheduledEvents()
@@ -129,8 +133,8 @@ namespace OTLoginServer.Classes
             eventsResponse.EventList = new List<Event>();
             eventsResponse.EventList.Add(new Event()
             {
-                StartDate = DateTime.UtcNow.ToTimestamp().Seconds,
-                EndDate = DateTime.UtcNow.ToTimestamp().Seconds + 5 * 86400,
+                StartDate = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+                EndDate = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + 5 * 86400,
                 ColorLight = "#7a1b34",
                 ColorDark = "#64162b",
                 Name = "Sample Event",
