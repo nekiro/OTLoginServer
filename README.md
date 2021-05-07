@@ -1,6 +1,6 @@
 # OT Login Server
 
-Web Login server is used to help you connect to your server supporting newest protocol version 12.
+Web Login server is used to help you connect to your tibia server supporting newest protocol version 12.
 It was intended to use in development environment, so it may be buggy or not performant enough to suit production environments. Use at your own risk.
 
 Technologies:
