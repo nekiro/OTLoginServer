@@ -9,7 +9,7 @@ Technologies:
   - MySql
 
 ## Protocol Supported
-12.51 - ?
+12.85
 
 ## How To Compile
 It's actually pretty simple.
