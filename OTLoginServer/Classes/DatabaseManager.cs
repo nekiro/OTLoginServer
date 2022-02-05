@@ -44,7 +44,7 @@ namespace OTLoginServer.Classes
 
         public async Task<Account> GetAccount(string email, string password)
         {
-            using var cmd = new MySqlCommand($"SELECT `id`, `premdays`, `lastday` FROM `accounts` WHERE `email` = '{email}' AND `password` = '{Const.Sha1Hash(password)}'", _connection);
+            using var cmd = new MySqlCommand($"SELECT `id`, `premium_ends_at` FROM `accounts` WHERE `email` = '{email}' AND `password` = '{Const.Sha1Hash(password)}'", _connection);
             using (var dataReader = await cmd.ExecuteReaderAsync())
             {
                 if (dataReader.Read())
@@ -58,11 +58,9 @@ namespace OTLoginServer.Classes
 
                     account.Id = dataReader.GetInt32(dataReader.GetOrdinal("id"));
 
-                    int premDays = dataReader.GetInt32(dataReader.GetOrdinal("premdays"));
+                    int premDays = dataReader.GetInt32(dataReader.GetOrdinal("premium_ends_at"));
                     account.IsPremium = premDays > 0;
-                    account.LastLoginTime = dataReader.GetInt64(dataReader.GetOrdinal("lastday"));
                     account.PremiumUntil = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + premDays * 86400;
-
                     return account;
                 }
             }
@@ -80,6 +78,8 @@ namespace OTLoginServer.Classes
 
             world.ExternalAddressProtected = world.ExternalAddressUnprotected = ConfigLoader.GetString("ip");
             world.ExternalPortProtected = world.ExternalPortUnprotected = ConfigLoader.GetInteger("gameProtocolPort");
+            world.ExternalAddressUnprotected = world.ExternalAddressUnprotected = ConfigLoader.GetString("ip");
+            world.ExternalPortUnprotected = world.ExternalPortUnprotected = ConfigLoader.GetInteger("gameProtocolPort");
 
             string pvpType = ConfigLoader.GetString("worldType");
             if (pvpType == "pvp")
@@ -101,7 +101,7 @@ namespace OTLoginServer.Classes
 
         public async Task<ICollection<Character>> GetAccountCharacters(int id)
         {
-            using var cmd = new MySqlCommand($"SELECT `name`, `level`, `vocation`, `sex`, `looktype`, `lookhead`, `lookbody`, `looklegs`, `lookfeet`, `lookaddons`  FROM `players` WHERE `account_id` = {id}", _connection);
+            using var cmd = new MySqlCommand($"SELECT `name`, `sex`, `level`, `vocation`, `lookbody`, `looktype`, `lookhead`, `looklegs`, `lookfeet`, `lookaddons`, `deletion`  FROM `players` WHERE `account_id` = {id}", _connection);
             using var dataReader = await cmd.ExecuteReaderAsync();
 
             List<Character> characters = new List<Character>();
@@ -119,6 +119,7 @@ namespace OTLoginServer.Classes
                     LegsColor = dataReader.GetInt32(dataReader.GetOrdinal("looklegs")),
                     DetailColor = dataReader.GetInt32(dataReader.GetOrdinal("lookfeet")),
                     AddonsFlags = dataReader.GetInt32(dataReader.GetOrdinal("lookaddons")),
+                    IsHidden = dataReader.GetInt32(dataReader.GetOrdinal("deletion")) == 1,
                 });
             }
 

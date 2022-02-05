@@ -9,10 +9,11 @@
         public string ExternalAddressUnprotected { get; set; }
         public int ExternalPortUnprotected { get; set; }
         public int PreviewState { get; set; } = 0;
-        public string Location { get; set; } = "EUR"; // todo make it enum
-        public bool AntiCheatProtection { get; set; } = false;
+        public string Location { get; set; } = "ALL"; // todo make it enum
         public int PvpType { get; set; }
         public bool IsTournamentWorld { get; set; } = false;
         public bool RestrictedStore { get; set; } = false;
+        public int CurrentTournamentPhase { get; set; } = 0;
+        public bool AnticheatProtection { get; set; } = false;
     }
 }

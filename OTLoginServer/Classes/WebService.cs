@@ -88,6 +88,8 @@ namespace OTLoginServer.Classes
                 {
                     string email = obj.Value<string>("email");
                     string password = obj.Value<string>("password");
+                    string token = obj.Value<string>("token");
+                    string time = DateTime.Now.AddMinutes(30).ToString();
                     Account account = await _db.GetAccount(email, password);
                     if (account == null)
                     {
@@ -99,8 +101,7 @@ namespace OTLoginServer.Classes
                     {
                         Session = new Session
                         {
-                            SessionKey = $"{email}\n{password}",
-                            LastLoginTime = account.LastLoginTime,
+                            SessionKey = $"{email}\n{password}\n{token}\n{time}",
                             IsPremium = account.IsPremium,
                             PremiumUntil = account.PremiumUntil
                         },
