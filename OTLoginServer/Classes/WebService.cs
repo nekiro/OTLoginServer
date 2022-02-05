@@ -101,7 +101,6 @@ namespace OTLoginServer.Classes
                     {
                         Session = new Session
                         {
-                            //SessionKey = $"{email}\n{password}",
                             SessionKey = $"{email}\n{password}\n{token}\n{time}",
                             IsPremium = account.IsPremium,
                             PremiumUntil = account.PremiumUntil
@@ -113,6 +112,7 @@ namespace OTLoginServer.Classes
                             Worlds = await Task.Run(() => _db.GetWorlds())
                         }
                     };
+
                     await SendResponse(ctx, CustomJsonSerialize(loginResponse));
                 }
                 else if (type == "boostedcreature")

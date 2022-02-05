@@ -4,8 +4,6 @@
     {
         public int Id { get; set; } = 0;
         public string Name { get; set; } = "World";
-        public string ExternalAddress { get; set; }
-        public int ExternalPort { get; set; }
         public string ExternalAddressProtected { get; set; }
         public int ExternalPortProtected { get; set; }
         public string ExternalAddressUnprotected { get; set; }

@@ -61,7 +61,6 @@ namespace OTLoginServer.Classes
                     int premDays = dataReader.GetInt32(dataReader.GetOrdinal("premium_ends_at"));
                     account.IsPremium = premDays > 0;
                     account.PremiumUntil = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + premDays * 86400;
-
                     return account;
                 }
             }
@@ -77,8 +76,6 @@ namespace OTLoginServer.Classes
                 Name = ConfigLoader.GetString("serverName"),
             };
 
-            world.ExternalAddress = world.ExternalAddressUnprotected = ConfigLoader.GetString("ip");
-            world.ExternalPort = world.ExternalPortUnprotected = ConfigLoader.GetInteger("gameProtocolPort");
             world.ExternalAddressProtected = world.ExternalAddressUnprotected = ConfigLoader.GetString("ip");
             world.ExternalPortProtected = world.ExternalPortUnprotected = ConfigLoader.GetInteger("gameProtocolPort");
             world.ExternalAddressUnprotected = world.ExternalAddressUnprotected = ConfigLoader.GetString("ip");
