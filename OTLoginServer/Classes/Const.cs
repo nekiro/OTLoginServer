@@ -6,7 +6,7 @@ namespace OTLoginServer.Classes
 {
     public static class Const
     {
-        public static string[] Prefixes = new string[] { "http://localhost:80/login/" }; // server will listen for incoming login request at this url
+        public static string[] Prefixes = new string[] { "http://127.0.0.1:80/login.php/" }; // server will listen for incoming login request at this url
 
         public static string Sha1Hash(string stringToHash)
         {
